@@ -44,7 +44,6 @@ const App = () => {
           tags,
         })
       );
-      console.log(newImages);
 
       setImages(prevImgs =>
         prevImgs ? [...prevImgs, ...newImages] : newImages

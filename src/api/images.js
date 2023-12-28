@@ -13,6 +13,6 @@ export async function getAllImages(query, page) {
       per_page: 12,
     },
   });
-    console.log(response.data);
+ 
   return response.data;
 }

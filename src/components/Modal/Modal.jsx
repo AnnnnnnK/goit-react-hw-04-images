@@ -1,38 +1,35 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import css from 'components/Modal/Modal.module.css';
 
-class Modal extends Component {
-  handleEsc = e => {
-    if (e.code === 'Escape') this.props.hideModal();
-  };
+import React from 'react';
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleEsc);
+const Modal = ({ hideModal, largeImgUrl, tag }) => {
+  useEffect(() => {
+    const handleEsc = e => {
+      if (e.code === 'Escape') hideModal();
+    };
+
+    document.addEventListener('keydown', handleEsc);
     document.body.style.overflow = 'hidden';
-  }
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'auto';
+    };
+  }, [hideModal]);
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleEsc);
-    document.body.style.overflow = 'auto';
-  }
-
-  onBackdropClick = e => {
-    console.log(e.currentTarget);
+  const onBackdropClick = e => {
     if (e.target === e.currentTarget) {
-      this.props.hideModal();
+      hideModal();
     }
   };
 
-  render() {
-    const { largeImgUrl, tag } = this.props;
-    return (
-      <div className={css.modal} onClick={this.onBackdropClick}>
-        <div className={css.modal_content}>
-          <img src={largeImgUrl} alt={tag} />
-        </div>
+  return (
+    <div className={css.modal} onClick={onBackdropClick}>
+      <div className={css.modal_content}>
+        <img src={largeImgUrl} alt={tag} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Modal;
